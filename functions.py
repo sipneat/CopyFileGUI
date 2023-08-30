@@ -1,5 +1,6 @@
 import os
 import time
+import shutil as sh
 import PySimpleGUI as sg
 from collections import deque
 from dotenv import load_dotenv
@@ -33,7 +34,7 @@ def userInput(window, clientFolder, file):
             break
         if event == "-YES_BUTTON-":
             try:
-                # os.rename(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
+                sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
                 sg.popup(
                     "File moved to " + clientFolder + " successfully!",
                     keep_on_top=True,
@@ -41,17 +42,18 @@ def userInput(window, clientFolder, file):
                 )
                 print("File moved successfully!")
             except Exception as e:
-                sg.popup("ERROR: File move failed!")
+                sg.popup("ERROR: File move failed!", title="Fail")
                 print("File move failed!")
                 print(e)
-                break
             window["-OUTPUT-"].update(visible=False)
             window["-YES_BUTTON-"].update(visible=False)
             window["-NO_BUTTON-"].update(visible=False)
             break
         elif event == "-NO_BUTTON-":
             dec = sg.popup_yes_no(
-                "Would you like to choose a different folder?", keep_on_top=True
+                "Would you like to choose a different folder?",
+                keep_on_top=True,
+                title="Choose Folder",
             )
             if dec == "Yes":
                 clientFolder = sg.popup_get_folder(
@@ -69,11 +71,18 @@ def userInput(window, clientFolder, file):
                 clientFolder = (
                     clientFolder.split("/")[-2] + "\\" + clientFolder.split("/")[-1]
                 )
-                # os.rename(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
-                sg.popup(
-                    "File moved to " + clientFolder + " successfully!", keep_on_top=True
-                )
-                print("File moved successfully!")
+                try:
+                    sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
+                    sg.popup(
+                        "File moved to " + clientFolder + " successfully!",
+                        keep_on_top=True,
+                        title="Success",
+                    )
+                    print("File moved successfully!")
+                except Exception as e:
+                    sg.popup("ERROR: File move failed!", title="Fail")
+                    print("File move failed!")
+                    print(e)
                 window["-OUTPUT-"].update(visible=False)
                 window["-YES_BUTTON-"].update(visible=False)
                 window["-NO_BUTTON-"].update(visible=False)

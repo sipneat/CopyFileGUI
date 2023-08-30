@@ -13,7 +13,7 @@ user_input_column = [
         sg.Text("Current Path is: " + serverPath, key="-PATH-"),
         sg.Button("Change Path", key="-CHANGE_PATH-"),
     ],
-    [sg.ProgressBar(39, orientation="h", size=(20, 20), key="-PROGRESS_BAR-")],
+    [sg.ProgressBar(40, orientation="h", size=(20, 20), key="-PROGRESS_BAR-")],
     [sg.Text("", key="-OUTPUT-", visible=False)],
     [
         sg.Button("Yes", key="-YES_BUTTON-", visible=False),
@@ -91,6 +91,10 @@ while True:  # Event Loop
         serverPath = sg.popup_get_folder(
             "Choose folder to search", keep_on_top=True, initial_folder=serverPath
         )
-        window["-PATH-"].update("Current Path is: " + serverPath)
+        try:
+            window["-PATH-"].update("Current Path is: " + serverPath)
+        except:
+            window["-PATH-"].update("Current Path is: ")
+            pass
 
 window.close()
