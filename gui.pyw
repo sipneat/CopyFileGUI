@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 import PySimpleGUI as sg
 from functions import *
 
@@ -13,13 +12,15 @@ user_input_column = [
         sg.Text("Current Path is: " + serverPath, key="-PATH-"),
         sg.Button("Change Path", key="-CHANGE_PATH-"),
     ],
-    [sg.ProgressBar(40, orientation="h", size=(20, 20), key="-PROGRESS_BAR-")],
-    [sg.Text("", key="-OUTPUT-", visible=False)],
+    [sg.ProgressBar(45, orientation="h", size=(20, 20), key="-PROGRESS_BAR-")],
+    [sg.Text("", key="-OUTPUT-", visible=True)],
     [
         sg.Button("Yes", key="-YES_BUTTON-", visible=False),
         sg.Button("No", key="-NO_BUTTON-", visible=False),
         sg.Exit(visible=False, disabled=True, key="-EXIT-"),
     ],
+    [sg.VPush()],
+    [sg.Text("", key="-FILE_COUNT-", visible=False)]
 ]
 
 console_colomn = [
@@ -73,6 +74,7 @@ while True:  # Event Loop
         break
     elif event == "-START-":
         window["-EXIT-"].update(visible=False, disabled=True)
+        window["-OUTPUT-"].update(visible=False)
         print("Starting...")
         start(window, serverPath)
         try:

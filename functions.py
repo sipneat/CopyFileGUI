@@ -94,6 +94,7 @@ def userInput(window, clientFolder, file):
                 window["-YES_BUTTON-"].update(visible=False)
                 window["-NO_BUTTON-"].update(visible=False)
                 break
+    window["-FILE_COUNT-"].update(visible=False)
     return
 
 
@@ -139,53 +140,84 @@ def start(window, serverPathChange):
         try:
             window["-TEXT-"].update("Looking for document matches...")
             window["-PROGRESS_BAR-"].update_bar(0)
+            if len(fileQ) == 1:
+                window["-FILE_COUNT-"].update("There is 1 file left to process", visible=True)
+            else:
+                window["-FILE_COUNT-"].update("There are " + str(len(fileQ)) + " files left to process", visible=True)
         except:
             return
         for x in folderTypes:
             try:
-                window["-PROGRESS_BAR-"].update_bar((folderTypes.index(x) + 1))
+                window["-PROGRESS_BAR-"].update(current_count=(folderTypes.index(x) + 1))
             except:
                 return
             if x in file:
-                if folderTypes.index(x) < 1:
-                    clientFolder = clientFolder + "\\A - CLIENT INFO"
-                    fileFlag = True
-                    print(file + " is " + x + "!")
-                    break
-                elif folderTypes.index(x) >= 1 and folderTypes.index(x) < 5:
+                if (
+                    folderTypes.index(x) >= 0 
+                    and folderTypes.index(x) < 4
+                    and x not in file.split()[1]
+                ):
                     clientFolder = clientFolder + "\\B - CORRESPONDENCE"
                     fileFlag = True
                     print(file + " is " + x + "!")
                     break
-                elif folderTypes.index(x) >= 5 and folderTypes.index(x) < 9:
-                    clientFolder = clientFolder + "\\C - DISCLOURES"
+                elif (
+                    folderTypes.index(x) >= 4 
+                    and folderTypes.index(x) < 8
+                    and x not in file.split()[1]
+                ):
+                    clientFolder = clientFolder + "\\C - DISCLOSURES"
                     fileFlag = True
                     print(file + " is " + x + "!")
                     break
-                elif folderTypes.index(x) >= 9 and folderTypes.index(x) < 10:
+                elif (
+                    folderTypes.index(x) >= 8 
+                    and folderTypes.index(x) < 9
+                    and x not in file.split()[1]
+                ):
                     clientFolder = clientFolder + "\\E - DISCOVERY"
                     fileFlag = True
                     print(file + " is " + x + "!")
                     break
-                elif folderTypes.index(x) >= 10 and folderTypes.index(x) < 12:
+                elif (
+                    folderTypes.index(x) >= 9 
+                    and folderTypes.index(x) < 11
+                    and x not in file.split()[1]
+                ):
                     clientFolder = clientFolder + "\\G - PAYMENTS & INVOICES"
                     fileFlag = True
                     print(file + " is " + x + "!")
                     break
-                elif folderTypes.index(x) >= 12 and folderTypes.index(x) < 13:
+                elif (
+                    folderTypes.index(x) >= 11 
+                    and folderTypes.index(x) < 12
+                    and x not in file.split()[1]
+                ):
                     clientFolder = clientFolder + "\\H - NOTES"
                     fileFlag = True
                     print(file + " is " + x + "!")
                     break
-                elif folderTypes.index(x) >= 13 and folderTypes.index(x) < 39:
+                elif (
+                    folderTypes.index(x) >= 12 
+                    and folderTypes.index(x) < 43
+                    and x not in file.split()[1]
+                ):
                     clientFolder = clientFolder + "\\I - PLEADINGS"
                     fileFlag = True
                     print(file + " is " + x + "!")
                     break
                 elif (
-                    folderTypes.index(x) == 39
+                    folderTypes.index(x) <= 43
+                    and folderTypes.index(x) > 44
                     and x not in file.split()[1]
-                    and x not in file.split()[2]
+                ):
+                    clientFolder = clientFolder + "\\A - CLIENT INFO"
+                    fileFlag = True
+                    print(file + " is " + x + "!")
+                    break
+                elif (
+                    folderTypes.index(x) == 44
+                    and x not in file.split()[1]
                 ):
                     clientFolder = clientFolder + "\\F - CONTRACT"
                     fileFlag = True
