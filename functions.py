@@ -34,7 +34,7 @@ def userInput(window, clientFolder, file):
             break
         if event == "-YES_BUTTON-":
             try:
-                sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
+                # sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
                 sg.popup(
                     "File moved to " + clientFolder + " successfully!",
                     keep_on_top=True,
@@ -72,7 +72,7 @@ def userInput(window, clientFolder, file):
                     clientFolder.split("/")[-2] + "\\" + clientFolder.split("/")[-1]
                 )
                 try:
-                    sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
+                    # sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
                     sg.popup(
                         "File moved to " + clientFolder + " successfully!",
                         keep_on_top=True,
@@ -154,7 +154,7 @@ def start(window, serverPathChange):
             if x in file:
                 if (
                     folderTypes.index(x) >= 0 
-                    and folderTypes.index(x) < 4
+                    and folderTypes.index(x) < 3
                     and x not in file.split()[1]
                 ):
                     clientFolder = clientFolder + "\\B - CORRESPONDENCE"
@@ -162,8 +162,8 @@ def start(window, serverPathChange):
                     print(file + " is " + x + "!")
                     break
                 elif (
-                    folderTypes.index(x) >= 4 
-                    and folderTypes.index(x) < 8
+                    folderTypes.index(x) >= 3 
+                    and folderTypes.index(x) < 7
                     and x not in file.split()[1]
                 ):
                     clientFolder = clientFolder + "\\C - DISCLOSURES"
@@ -171,8 +171,8 @@ def start(window, serverPathChange):
                     print(file + " is " + x + "!")
                     break
                 elif (
-                    folderTypes.index(x) >= 8 
-                    and folderTypes.index(x) < 9
+                    folderTypes.index(x) >= 7
+                    and folderTypes.index(x) < 8
                     and x not in file.split()[1]
                 ):
                     clientFolder = clientFolder + "\\E - DISCOVERY"
@@ -180,8 +180,8 @@ def start(window, serverPathChange):
                     print(file + " is " + x + "!")
                     break
                 elif (
-                    folderTypes.index(x) >= 9 
-                    and folderTypes.index(x) < 11
+                    folderTypes.index(x) >= 8
+                    and folderTypes.index(x) < 10
                     and x not in file.split()[1]
                 ):
                     clientFolder = clientFolder + "\\G - PAYMENTS & INVOICES"
@@ -189,8 +189,8 @@ def start(window, serverPathChange):
                     print(file + " is " + x + "!")
                     break
                 elif (
-                    folderTypes.index(x) >= 11 
-                    and folderTypes.index(x) < 12
+                    folderTypes.index(x) >= 10 
+                    and folderTypes.index(x) < 11
                     and x not in file.split()[1]
                 ):
                     clientFolder = clientFolder + "\\H - NOTES"
@@ -198,8 +198,8 @@ def start(window, serverPathChange):
                     print(file + " is " + x + "!")
                     break
                 elif (
-                    folderTypes.index(x) >= 12 
-                    and folderTypes.index(x) < 43
+                    folderTypes.index(x) >= 11 
+                    and folderTypes.index(x) < 42
                     and x not in file.split()[1]
                 ):
                     clientFolder = clientFolder + "\\I - PLEADINGS"
@@ -207,8 +207,8 @@ def start(window, serverPathChange):
                     print(file + " is " + x + "!")
                     break
                 elif (
-                    folderTypes.index(x) <= 43
-                    and folderTypes.index(x) > 44
+                    folderTypes.index(x) >= 42
+                    and folderTypes.index(x) < 43
                     and x not in file.split()[1]
                 ):
                     clientFolder = clientFolder + "\\A - CLIENT INFO"
@@ -216,10 +216,19 @@ def start(window, serverPathChange):
                     print(file + " is " + x + "!")
                     break
                 elif (
-                    folderTypes.index(x) == 44
+                    folderTypes.index(x) >= 43
+                    and folderTypes.index(x) < 44
                     and x not in file.split()[1]
                 ):
                     clientFolder = clientFolder + "\\F - CONTRACT"
+                    fileFlag = True
+                    print(file + " is " + x + "!")
+                    break
+                elif (
+                    folderTypes.index(x) == 44
+                    and x not in file.split()[1]
+                ):
+                    clientFolder = clientFolder + "\\B - CORRESPONDENCE"
                     fileFlag = True
                     print(file + " is " + x + "!")
                     break
