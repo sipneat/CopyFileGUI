@@ -34,7 +34,7 @@ def userInput(window, clientFolder, file):
             break
         if event == "-YES_BUTTON-":
             try:
-                # sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
+                sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
                 sg.popup(
                     "File moved to " + clientFolder + " successfully!",
                     keep_on_top=True,
@@ -72,7 +72,7 @@ def userInput(window, clientFolder, file):
                     clientFolder.split("/")[-2] + "\\" + clientFolder.split("/")[-1]
                 )
                 try:
-                    # sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
+                    sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
                     sg.popup(
                         "File moved to " + clientFolder + " successfully!",
                         keep_on_top=True,
