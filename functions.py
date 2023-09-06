@@ -11,6 +11,7 @@ folderTypes = []
 dbPath = os.getenv("DB_PATH")
 serverPath = os.getenv("SERVER_PATH")
 clientsPath = os.getenv("CLIENTS_PATH")
+closedClientsPath = os.getenv("CLOSED_CLIENTS_PATH")
 
 
 def dbCheck():
@@ -33,8 +34,21 @@ def userInput(window, clientFolder, file):
         if event == sg.WIN_CLOSED:
             break
         if event == "-YES_BUTTON-":
+            throwFlag = False
             try:
-                sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
+                try:
+                    sh.move(serverPath + "\\" + file, clientsPath + "\\" + clientFolder)
+                    throwFlag = True
+                except:
+                    for x in os.listdir(closedClientsPath):
+                        if "20" in x and os.path.isdir(closedClientsPath + "\\" + x):
+                            try:
+                                sh.move(serverPath + "\\" + file, closedClientsPath + "\\" + x + "\\" + clientFolder)
+                                throwFlag = True
+                            except Exception as e:                                   
+                                continue
+                if throwFlag == False:
+                    raise Exception(file + " already exists in " + clientFolder)
                 sg.popup(
                     "File moved to " + clientFolder + " successfully!",
                     keep_on_top=True,
@@ -42,7 +56,7 @@ def userInput(window, clientFolder, file):
                 )
                 print("File moved successfully!")
             except Exception as e:
-                sg.popup("ERROR: File move failed!", title="Fail")
+                sg.popup("ERROR: File move failed!\n" + str(e), keep_on_top=True, title="Fail")
                 print("File move failed!")
                 print(e)
             window["-OUTPUT-"].update(visible=False)
@@ -80,7 +94,7 @@ def userInput(window, clientFolder, file):
                     )
                     print("File moved successfully!")
                 except Exception as e:
-                    sg.popup("ERROR: File move failed!", title="Fail")
+                    sg.popup("ERROR: File move failed!\n" + str(e), keep_on_top=True, title="Fail")
                     print("File move failed!")
                     print(e)
                 window["-OUTPUT-"].update(visible=False)
@@ -108,6 +122,12 @@ def start(window, serverPathChange):
     dbCheck()
     window["-TEXT-"].update("Searching for files...")
     clientFileNames = os.listdir(clientsPath)
+    for x in os.listdir(closedClientsPath):
+        if "20" in x and os.path.isdir(closedClientsPath + "\\" + x):
+            clientFileNames += os.listdir(closedClientsPath + "\\" + x)
+    for x in clientFileNames:
+        if len(x.split(".")) > 1:
+            clientFileNames.remove(x) 
     serverFiles = os.listdir(serverPath)
     fileQ = deque()
     folderQ = deque()

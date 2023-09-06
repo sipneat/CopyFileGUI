@@ -62,7 +62,6 @@ window = sg.Window(
     layout,
     icon="icon.ico",
     resizable=True,
-    keep_on_top=True,
     element_justification="center",
     finalize=True,
 )
