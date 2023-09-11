@@ -136,9 +136,10 @@ def start(window, serverPathChange):
         temp = x.split()
         if len(temp) <= 2:
             continue
-        temp = temp[1]
+        name = temp[1]
+        initial = temp[2]
         for y in clientFileNames:
-            if temp in y:
+            if (name + ", " + initial) in y:
                 fileQ.append(x)
                 folderQ.append(y)
             else:
